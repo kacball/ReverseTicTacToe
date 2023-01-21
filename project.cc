@@ -94,34 +94,38 @@ bool isWinning(int tab[], int move) {
 char red[]={0x1b,'[','0',';','3','1','m',0};
 int main() {
 
-    std::cout<< "Cześć, pokażę ci grę w odwrócone kółko i krzyżyk, celem gry jest przegranie.\n";
-    std::cout<<normal<< "W odróżnieniu od oryginalnej gry, tutaj 2 gracz ma strategię wygrywającą.\n";
-    std::cout<< "Tak będą oznaczane kolejne pola (jak chcesz wpisać tam kółko, to wpisuj dany numer):\n";
+    std::cout<< "Hi, I'll show you reverse tic tac toe, where the goal is to lose (to make your opponent have 3 in a row).\n";
+    std::cout<<normal<< "Unlike in normal tic tac toe, here the second player has a winning strategy.\n";
+    std::cout<< "The fields will be numerated like this: (if you want to put your circle there, write the number):\n";
     std::cout<<underline<<"1|2|3"<<normal<<"\n"<<underline<<"4|5|6"<<normal<<"\n7|8|9\n";
-    std::cout<<"Jeśli chcesz zaczynać, wpisz \"y\", a jeśli chcesz być drugi/a, wpisz \"n\": ";
+    std::cout<<"If you want to start, type \"y\", if you wanna be second, type \"n\": ";
     std::string n;
     std::cin>>n;
     if(n[0] == 'y') {
         for(int i = 0; i < 5; i++) {
-        std::cout<<"Wpisz pole, w którym chciałbyś wpisać swoje kółko: ";
+        std::cout<<"Type number of the field, you want your circle to put in: ";
             bool wpisz = true;
             while(wpisz) {
                 std::cin>>n;
                 if(n[0] <= '9' && n[0] >= '1' && n.size() == 1 && curState[n[0]-'1'] == 0)
                     wpisz = false;
                 else {
-                    std::cout << "Niestety, źle wpisałeś numer pola (albo już jest zajęte)\n";
-                    std::cout<<"Wpisz pole, w którym chciałbyś wpisać swoje kółko: ";
+                    std::cout << "Unfortunately, you gave the wrong input (or the field is already taken)\n";
+                    std::cout<<"Type number of the field, you want your circle to put in: ";
                 }
             }
         curState[n[0]-'1'] = 1;
         printTab(curState);
         if(isWin(curState, 1)) {
-            std::cout<<red<<"Niestety, właśnie masz 3 w linii i przegrałeś :(\n"<<normal;
+            std::cout<<red<<"Unfortunately, you have 3 in a line, therefore you lose :(\n"<<normal;
             break;
         }
+        /* The usleep function is to not to scary the opponent (computer "thinks" insanely fast here)
+        If you're using windows (i.e. CodeBlocks) it may not work for you, so feel free to delete
+        lines with usleep() and the line with #include<unistd.h>.
+        */
         usleep(500000);
-        std::cout <<"Teraz ja wstawię swój krzyżyk, daj mi pomyśleć\n";
+        std::cout <<"Now I have to put my X, give me some time to think\n";
         usleep(2000000);
         for(int i = 0; i < 9; i++) {
             if(curState[i] == 0) {
@@ -135,7 +139,7 @@ int main() {
         }
     }
     if(n[0] == 'n') {
-        std::cout<< "W trakcie robienia\n";
+        // TODO
     }
 
     return 0;
